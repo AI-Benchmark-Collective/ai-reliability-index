@@ -1,0 +1,64 @@
+schema_version: "0.1"
+task:
+  id: "example-001"
+  version: "0.1.0"
+  title: "Replace with a concise task title"
+  status: "proposal"
+  domain: "general"
+  risk_level: "low"
+  authors:
+    - github: "replace-me"
+
+objective:
+  user_request: |
+    Replace this text with the exact request presented to the system.
+  required_deliverables:
+    - "Describe the observable final artifact."
+  success_definition: |
+    Define success without referring to a specific model's behavior.
+
+environment:
+  starting_state: "Describe the clean initial state."
+  allowed_tools:
+    - "List permitted tools."
+  prohibited_tools:
+    - "List prohibited tools."
+  time_limit_seconds: 600
+  cost_limit_usd: 2.00
+  network_access: false
+
+evaluation:
+  deterministic_checks:
+    - id: "artifact-exists"
+      description: "Replace with a machine-verifiable check."
+      weight: 1.0
+  human_review:
+    required: false
+    rubric: []
+  terminal_outcomes:
+    - "success"
+    - "task_failure"
+    - "policy_failure"
+    - "infrastructure_failure"
+  severe_failure_conditions:
+    - "Unauthorized external side effect"
+  partial_credit: false
+
+reporting:
+  required_runs: 10
+  required_artifacts:
+    - "configuration manifest"
+    - "execution trace"
+    - "scoring output"
+    - "cost and latency record"
+
+provenance:
+  source_description: "Explain where the task and materials came from."
+  redistribution_rights: "State the applicable license or permission."
+  contamination_notes: "Describe likely exposure in training or evaluation data."
+  contains_personal_data: false
+  contains_confidential_data: false
+
+limitations:
+  known_ambiguities: []
+  excluded_capabilities: []
