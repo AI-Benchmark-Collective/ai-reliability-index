@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Design question or community discussion
+    url: https://github.com/AI-Benchmark-Collective/ai-reliability-index/discussions
+    about: Use Discussions for open-ended questions and project ideas.
