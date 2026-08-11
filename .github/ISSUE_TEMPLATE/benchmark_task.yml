@@ -1,8 +1,6 @@
 name: Benchmark task proposal
 description: Propose a reproducible task for the AI Reliability Index
 title: "[Task proposal]: "
-labels:
-  - benchmark task
 body:
   - type: markdown
     attributes:
