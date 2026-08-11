@@ -1,0 +1,75 @@
+name: Benchmark task proposal
+description: Propose a reproducible task for the AI Reliability Index
+title: "[Task proposal]: "
+labels:
+  - benchmark task
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Proposals are public. Do not submit confidential, personal, unlicensed, or security-sensitive material.
+  - type: input
+    id: domain
+    attributes:
+      label: Domain
+      description: The professional or technical domain represented.
+    validations:
+      required: true
+  - type: textarea
+    id: objective
+    attributes:
+      label: Real-world objective
+      description: What useful outcome must the evaluated system produce?
+    validations:
+      required: true
+  - type: textarea
+    id: starting_state
+    attributes:
+      label: Starting state and materials
+      description: Describe everything available at the beginning and its provenance.
+    validations:
+      required: true
+  - type: textarea
+    id: success
+    attributes:
+      label: Auditable success criteria
+      description: List deterministic checks first, then any human-review rubric.
+    validations:
+      required: true
+  - type: textarea
+    id: failures
+    attributes:
+      label: Severe failure conditions
+      description: Which outcomes would be materially harmful or unacceptable?
+    validations:
+      required: true
+  - type: textarea
+    id: reproducibility
+    attributes:
+      label: Reproduction plan
+      description: How can another contributor recreate the environment and verify a run?
+    validations:
+      required: true
+  - type: textarea
+    id: rights
+    attributes:
+      label: Data rights and privacy
+      description: Explain redistribution rights and confirm no unnecessary sensitive data is included.
+    validations:
+      required: true
+  - type: textarea
+    id: conflicts
+    attributes:
+      label: Conflicts of interest
+      description: Disclose relevant employment, funding, investments, advisory roles, or privileged access; write "None" if none.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: I am authorized to share every submitted material.
+          required: true
+        - label: I have read the methodology and contribution requirements.
+          required: true
