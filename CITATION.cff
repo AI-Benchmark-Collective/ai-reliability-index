@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this benchmark or its results, cite the exact release and commit."
+title: "AI Reliability Index"
+type: software
+authors:
+  - name: "AI Benchmark Collective"
+version: 0.1.0-dev
+date-released: 2026-08-11
+repository-code: "https://github.com/AI-Benchmark-Collective/ai-reliability-index"
+url: "https://github.com/AI-Benchmark-Collective/ai-reliability-index"
+license: Apache-2.0
+keywords:
+  - artificial intelligence
+  - agents
+  - benchmark
+  - reliability
+  - reproducibility
