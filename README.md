@@ -12,10 +12,23 @@ tasks **accurately, consistently, safely, and economically**.
 git clone https://github.com/AI-Benchmark-Collective/ai-reliability-index
 cd ai-reliability-index
 python -m venv .venv
-# macOS and Linux
+```
+
+Activate the environment on macOS or Linux:
+
+```bash
 source .venv/bin/activate
-# Windows PowerShell
+```
+
+Or on Windows PowerShell:
+
+```powershell
 .venv\Scripts\Activate.ps1
+```
+
+Then install and run the benchmark:
+
+```bash
 pip install -e .
 airi validate --task evidence-brief-001
 airi run --task evidence-brief-001 --adapter mock --runs 10 --output results/raw
