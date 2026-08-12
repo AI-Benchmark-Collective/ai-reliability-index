@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# AI Reliability Index generated results
+results/raw/*.json
+results/raw/*.txt
+results/raw/*.html
+!results/raw/.gitkeep

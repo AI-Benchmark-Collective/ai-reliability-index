@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AI-Benchmark-Collective/ai-reliability-index/schemas/result-0.1.json",
+  "title": "AI Reliability Index run result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "task", "system", "configuration", "timing", "usage", "cost", "intervention", "outcome", "artifacts"],
+  "properties": {
+    "schema_version": {"const": "0.1"},
+    "run_id": {"type": "string"},
+    "task": {
+      "type": "object",
+      "required": ["id", "version", "source_path", "source_sha256"],
+      "properties": {
+        "id": {"type": "string"}, "version": {"type": "string"},
+        "source_path": {"type": "string"}, "source_sha256": {"type": "string"}
+      }
+    },
+    "system": {
+      "type": "object",
+      "required": ["adapter", "model", "capabilities"],
+      "properties": {
+        "adapter": {"type": "string"}, "model": {"type": "string"},
+        "capabilities": {"type": "object"}, "provider_request_id": {"type": ["string", "null"]}
+      }
+    },
+    "configuration": {"type": "object"},
+    "timing": {
+      "type": "object",
+      "required": ["started_at", "completed_at", "duration_seconds"],
+      "properties": {
+        "started_at": {"type": "string"}, "completed_at": {"type": "string"},
+        "duration_seconds": {"type": "number", "minimum": 0}
+      }
+    },
+    "usage": {"type": "object"},
+    "cost": {
+      "type": "object",
+      "required": ["estimated_usd", "pricing_source", "pricing_effective_date"],
+      "properties": {
+        "estimated_usd": {"type": ["number", "null"]},
+        "pricing_source": {"type": ["string", "null"]},
+        "pricing_effective_date": {"type": ["string", "null"]}
+      }
+    },
+    "intervention": {
+      "type": "object",
+      "required": ["count", "events"],
+      "properties": {"count": {"type": "integer", "minimum": 0}, "events": {"type": "array"}}
+    },
+    "outcome": {
+      "type": "object",
+      "required": ["category", "success", "score", "checks", "severe_failures", "notes"],
+      "properties": {
+        "category": {"type": "string"}, "success": {"type": "boolean"},
+        "score": {"type": "number", "minimum": 0, "maximum": 1},
+        "checks": {"type": "array"}, "severe_failures": {"type": "array"},
+        "notes": {"type": "array"}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "required": ["output_file"],
+      "properties": {"output_file": {"type": "string"}}
+    }
+  }
+}
+
