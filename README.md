@@ -12,7 +12,10 @@ tasks **accurately, consistently, safely, and economically**.
 git clone https://github.com/AI-Benchmark-Collective/ai-reliability-index
 cd ai-reliability-index
 python -m venv .venv
+# macOS and Linux
 source .venv/bin/activate
+# Windows PowerShell
+.venv\Scripts\Activate.ps1
 pip install -e .
 airi validate --task evidence-brief-001
 airi run --task evidence-brief-001 --adapter mock --runs 10 --output results/raw
