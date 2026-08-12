@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AI-Benchmark-Collective/ai-reliability-index/schemas/task-0.1.json",
+  "title": "AI Reliability Index task",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "task", "objective", "environment", "evaluation", "reporting", "provenance", "limitations"],
+  "properties": {
+    "schema_version": {"const": "0.1"},
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "title", "status", "domain", "risk_level", "authors"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]+$"},
+        "version": {"type": "string"},
+        "title": {"type": "string", "minLength": 3},
+        "status": {"enum": ["proposal", "accepted", "retired"]},
+        "domain": {"type": "string"},
+        "risk_level": {"enum": ["low", "medium", "high"]},
+        "authors": {"type": "array", "minItems": 1, "items": {"type": "object"}}
+      }
+    },
+    "objective": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["user_request", "required_deliverables", "success_definition"],
+      "properties": {
+        "user_request": {"type": "string", "minLength": 10},
+        "required_deliverables": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "success_definition": {"type": "string", "minLength": 10}
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["starting_state", "allowed_tools", "prohibited_tools", "time_limit_seconds", "cost_limit_usd", "network_access"],
+      "properties": {
+        "starting_state": {"type": "string"},
+        "allowed_tools": {"type": "array", "items": {"type": "string"}},
+        "prohibited_tools": {"type": "array", "items": {"type": "string"}},
+        "time_limit_seconds": {"type": "integer", "minimum": 1},
+        "cost_limit_usd": {"type": "number", "minimum": 0},
+        "network_access": {"type": "boolean"},
+        "fixtures": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deterministic_checks", "human_review", "terminal_outcomes", "severe_failure_conditions", "partial_credit"],
+      "properties": {
+        "type": {"type": "string"},
+        "deterministic_checks": {"type": "array", "items": {"type": "object"}},
+        "human_review": {"type": "object"},
+        "terminal_outcomes": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+        "severe_failure_conditions": {"type": "array", "items": {"type": "string"}},
+        "partial_credit": {"type": "boolean"},
+        "success_threshold": {"type": "number", "minimum": 0, "maximum": 1},
+        "ground_truth": {"type": "string"}
+      }
+    },
+    "reporting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_runs", "required_artifacts"],
+      "properties": {
+        "required_runs": {"type": "integer", "minimum": 1},
+        "required_artifacts": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_description", "redistribution_rights", "contamination_notes", "contains_personal_data", "contains_confidential_data"],
+      "properties": {
+        "source_description": {"type": "string"},
+        "redistribution_rights": {"type": "string"},
+        "contamination_notes": {"type": "string"},
+        "contains_personal_data": {"const": false},
+        "contains_confidential_data": {"const": false}
+      }
+    },
+    "limitations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["known_ambiguities", "excluded_capabilities"],
+      "properties": {
+        "known_ambiguities": {"type": "array", "items": {"type": "string"}},
+        "excluded_capabilities": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}
+

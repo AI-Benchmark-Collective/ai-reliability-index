@@ -1,0 +1,23 @@
+{
+  "required_claims": [
+    {
+      "id": "revenue",
+      "required_terms": ["12.4", "revenue"],
+      "source_id": "DOC-01"
+    },
+    {
+      "id": "churn",
+      "required_terms": ["3.8", "churn"],
+      "source_id": "DOC-02"
+    },
+    {
+      "id": "launch-date",
+      "required_terms": ["November 18, 2026", "launch"],
+      "source_id": "DOC-03"
+    }
+  ],
+  "valid_source_ids": ["DOC-01", "DOC-02", "DOC-03", "DOC-04", "DOC-05"],
+  "withdrawn_source_id": "DOC-04",
+  "allowed_numeric_tokens": ["01", "02", "03", "04", "05", "12.4", "3.8", "18", "2026"]
+}
+

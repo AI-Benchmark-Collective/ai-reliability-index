@@ -1,53 +1,102 @@
 # AI Reliability Index
 
-An open, reproducible benchmark for measuring whether AI agents perform real-world tasks **accurately, consistently, safely, and economically**.
+An open, reproducible benchmark for measuring whether AI agents perform real-world
+tasks **accurately, consistently, safely, and economically**.
 
-> **Status:** v0.1 methodology and task set are under active development. No official model rankings have been published yet.
+> **Status:** `v0.1.0-alpha` is runnable infrastructure with one synthetic task and a
+> deterministic demonstration adapter. No official model rankings have been published.
 
-## Why this exists
+## Five-minute quickstart
 
-A single successful run does not make an AI agent reliable. The AI Reliability Index evaluates repeated executions and reports the distribution of outcomes—not only a headline average.
+```bash
+git clone https://github.com/AI-Benchmark-Collective/ai-reliability-index
+cd ai-reliability-index
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
+airi validate --task evidence-brief-001
+airi run --task evidence-brief-001 --adapter mock --runs 10 --output results/raw
+```
 
-We measure:
+Open `results/raw/report.html` after the run. The same directory contains one JSON
+manifest and raw output per run plus a machine-readable `summary.json`.
+
+The mock adapter is deliberately variable and completely offline. It demonstrates the
+measurement pipeline; **its numbers are not AI-model results**.
+
+## What the alpha measures
 
 - task success rate;
 - consistency across repeated runs;
+- 95% Wilson intervals for binary success;
 - severe-failure rate;
-- unsupported-claim rate;
-- human intervention required;
-- completion time; and
-- estimated execution cost.
+- human intervention;
+- median and p95 latency;
+- token usage and versioned cost estimates; and
+- complete run-level manifests.
 
-## v0.1 scope
+## Included task
 
-The first release will contain a small, auditable set of professional tasks. Each system–task pair will be run repeatedly under a documented configuration. Raw traces, scoring decisions, costs, limitations, and conflicts of interest will be disclosed wherever licensing and privacy permit.
+`evidence-brief-001` gives the system five synthetic business documents, including an
+authoritative record, irrelevant evidence, and a withdrawn conflicting draft. The
+system must produce a JSON operating brief with correctly grounded citations.
 
-We prioritize evaluation quality over task volume.
+The evaluator is narrow and deterministic. It checks the JSON contract, three required
+facts, source correctness, use of withdrawn evidence, and unsupported numeric claims.
+
+## Optional OpenAI Responses API adapter
+
+The adapter uses the official Python SDK and reads the key from `OPENAI_API_KEY`.
+Credentials are never accepted as CLI arguments or written to result files.
+
+```bash
+pip install -e ".[openai]"
+export OPENAI_API_KEY="..."
+airi run \
+  --task evidence-brief-001 \
+  --adapter openai \
+  --model YOUR_PINNED_MODEL_VERSION \
+  --runs 10 \
+  --pricing-file pricing/your-versioned-price.json \
+  --output results/raw/openai-run
+```
+
+Do not commit API keys or unreviewed paid results. Official comparisons require a
+pinned model identifier, a contemporaneous pricing source, complete manifests, and
+independent review.
+
+## Commands
+
+```text
+airi validate --task TASK
+airi run --task TASK --adapter {mock,openai} --runs N --output DIRECTORY
+airi report --input RESULT_DIRECTORY --output report.html
+```
+
+`TASK` may be a task YAML path or a bundled task ID.
 
 ## Repository map
 
 | Path | Purpose |
 |---|---|
-| `benchmark/tasks/` | Versioned task specifications |
-| `benchmark/scoring/` | Scoring rubrics and evaluators |
+| `src/airi/` | CLI, adapters, runner, metrics, validation, and reporting |
+| `src/airi/schemas/` | Versioned task and result JSON Schemas |
+| `benchmark/tasks/` | Versioned task specifications and fixtures |
+| `benchmark/scoring/` | Scoring documentation and evaluators |
 | `results/` | Raw and independently verified outputs |
 | `docs/methodology.md` | Evaluation and reporting protocol |
 | `docs/governance.md` | Roles, decisions, membership, and conflicts |
+| `docs/launch/` | Founding-contributor and release campaign assets |
 | `CONTRIBUTING.md` | How to make an accepted contribution |
 
 ## Contribute
 
-Useful first contributions include:
+Useful first contributions include proposing or auditing a task, reproducing a result,
+implementing an adapter, reviewing methodology, and improving deterministic evaluators.
 
-- proposing or auditing a benchmark task;
-- reproducing a published result;
-- implementing an agent or model adapter;
-- improving a deterministic evaluator;
-- reviewing the statistical methodology;
-- documenting a failure case; and
-- creating an accessible result visualization.
-
-Read [CONTRIBUTING.md](CONTRIBUTING.md), then open a structured task proposal or choose an issue labeled `good first issue`.
+Read [CONTRIBUTING.md](CONTRIBUTING.md), then choose an issue labeled
+[`good first issue`](https://github.com/AI-Benchmark-Collective/ai-reliability-index/labels/good%20first%20issue)
+or [`help wanted`](https://github.com/AI-Benchmark-Collective/ai-reliability-index/labels/help%20wanted).
 
 ## Methodological commitments
 
@@ -62,28 +111,27 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), then open a structured task proposal or
 
 See the full [methodology](docs/methodology.md).
 
-## Membership
+## Membership and credit
 
-Participation is open. Formal organization membership is earned through accepted, attributable work and sustained adherence to the project’s standards. Membership is never sold and does not imply endorsement of a contributor’s unrelated work.
+Participation is open. Formal organization membership is earned through accepted,
+attributable work and sustained adherence to the project’s standards. Membership is
+never sold. See [governance](docs/governance.md) and the
+[founding-contributor charter](FOUNDING_CONTRIBUTORS.md).
 
-See [governance and membership](docs/governance.md).
+## Development
 
-## Roadmap
+```bash
+pip install -e ".[dev]"
+ruff check src tests
+pytest
+```
 
-- [x] Publish initial project charter
-- [x] Publish v0.1 methodology draft
-- [x] Define a task specification template
-- [ ] Approve the first 10 benchmark tasks
-- [ ] Implement the reference runner and evaluators
-- [ ] Add at least three system adapters
-- [ ] Complete an independent scoring audit
-- [ ] Publish AI Reliability Index v0.1
-- [ ] Open nominations for benchmark-track leads
+Pull requests run the same checks on Python 3.11, 3.12, and 3.13.
 
-## Citation
+## Citation and license
 
-Citation metadata is provided in [CITATION.cff](CITATION.cff). Results must cite the exact benchmark version, task-set commit, system version, configuration, and evaluation date.
+Citation metadata is provided in [CITATION.cff](CITATION.cff). Cite the exact release,
+task-set commit, system version, configuration, and evaluation date.
 
-## License
+Code is licensed under Apache-2.0. Individual task data may declare additional terms.
 
-Code is intended to be released under the Apache License 2.0. Task data and written material may carry separate licenses where indicated. Do not contribute material you are not authorized to redistribute.

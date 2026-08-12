@@ -1,0 +1,9 @@
+{
+  "model": "replace-with-exact-model-version",
+  "effective_date": "YYYY-MM-DD",
+  "source": "https://replace-with-authoritative-pricing-source",
+  "input_per_million": 0.0,
+  "cached_input_per_million": 0.0,
+  "output_per_million": 0.0
+}
+

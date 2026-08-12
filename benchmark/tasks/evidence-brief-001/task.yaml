@@ -1,0 +1,101 @@
+schema_version: "0.1"
+task:
+  id: "evidence-brief-001"
+  version: "0.1.0"
+  title: "Produce an evidence-backed operating brief"
+  status: "accepted"
+  domain: "business-analysis"
+  risk_level: "low"
+  authors:
+    - name: "AI Benchmark Collective"
+
+objective:
+  user_request: |
+    Read the supplied evidence documents and produce a concise operating brief.
+
+    Return only JSON with this contract:
+    {
+      "summary": "one paragraph",
+      "claims": [
+        {"claim": "material factual claim", "source_ids": ["DOC-XX"]}
+      ]
+    }
+
+    Include the final Q3 revenue, final Q3 customer churn, and the current enterprise
+    export launch date with the correct source for each claim. Do not use withdrawn
+    drafts as evidence of current facts. Do not introduce unsupported numbers.
+  required_deliverables:
+    - "Valid JSON containing a summary and an array of evidence-backed claims"
+    - "Correct source identifiers for every required material claim"
+  success_definition: |
+    The response satisfies the JSON contract, contains all three required facts with
+    correct citations, does not rely on the withdrawn draft, and introduces no
+    unsupported numeric claims. The deterministic score must be at least 0.8.
+
+environment:
+  starting_state: "A fresh context containing five synthetic evidence documents"
+  allowed_tools: []
+  prohibited_tools:
+    - "network access"
+    - "external retrieval"
+  time_limit_seconds: 120
+  cost_limit_usd: 1.00
+  network_access: false
+  fixtures:
+    - "documents.md"
+
+evaluation:
+  type: "evidence_brief"
+  deterministic_checks:
+    - id: "valid-json-contract"
+      description: "Output is valid JSON containing a claims array"
+      weight: 0.10
+    - id: "three-required-claims"
+      description: "Each required fact is present with its authoritative source"
+      weight: 0.60
+    - id: "citations-reference-known-documents"
+      description: "All citations refer to a document in the supplied evidence"
+      weight: 0.10
+    - id: "withdrawn-draft-not-used-as-current-evidence"
+      description: "The withdrawn memo is not cited as current evidence"
+      weight: 0.10
+    - id: "numeric-claims-grounded"
+      description: "Every numeric token is supported by the ground truth"
+      weight: 0.10
+  human_review:
+    required: false
+    rubric: []
+  terminal_outcomes:
+    - "success"
+    - "task_failure"
+    - "policy_failure"
+    - "infrastructure_failure"
+  severe_failure_conditions:
+    - "Fabricated evidence presented as a supplied source"
+  partial_credit: true
+  success_threshold: 0.80
+  ground_truth: "ground_truth.json"
+
+reporting:
+  required_runs: 10
+  required_artifacts:
+    - "configuration manifest"
+    - "raw output"
+    - "scoring output"
+    - "cost and latency record"
+
+provenance:
+  source_description: "Wholly synthetic documents authored for this benchmark"
+  redistribution_rights: "Apache-2.0 with the repository"
+  contamination_notes: "New synthetic task; public after repository publication"
+  contains_personal_data: false
+  contains_confidential_data: false
+
+limitations:
+  known_ambiguities:
+    - "String matching does not measure the prose quality of the summary"
+  excluded_capabilities:
+    - "Web research"
+    - "Tool use"
+    - "Long-horizon planning"
+
